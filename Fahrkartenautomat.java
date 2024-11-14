@@ -10,18 +10,29 @@ class Fahrkartenautomat {
         double eingeworfeneMuenze;
         double rueckgabebetrag;
         double nochZuZahlen;
+        int anzahlTickets;
+        float ticketPreis = 2.5F;
+
+        //0
+
+        System.out.printf("Der Ticket Presi beträgt %f Euro", ticketPreis);
+        System.out.println("Wie viel Tickets wollen sie kaufen?");
+        anzahlTickets = tastatur.nextInt();
+
+        zuZahlenderBetrag = anzahlTickets * ticketPreis;
+        
 
         // 1
-        System.out.print("Zu zahlender Betrag (Euro): ");
-        zuZahlenderBetrag = tastatur.nextDouble();
+        System.out.printf("\nZu zahlender Betrag : %f Euro", zuZahlenderBetrag );
+        eingezahlterGesamtbetrag = tastatur.nextDouble();
 
         // 2
-        eingezahlterGesamtbetrag = 0.0;
+       //eingezahlterGesamtbetrag = 0.0;
         nochZuZahlen = 0.0;
         while (eingezahlterGesamtbetrag < zuZahlenderBetrag) {
             nochZuZahlen = zuZahlenderBetrag - eingezahlterGesamtbetrag;
-            System.out.println("Noch zu zahlen: " + nochZuZahlen);
-            System.out.print("Eingabe (mind. 5 Cent, höchstens 2 Euro): ");
+            System.out.printf("Noch zu zahlen: %f Euro", nochZuZahlen);
+            System.out.print("Eingabe (mind. 5 Cent, höchstens 2 Euro: ");
             eingeworfeneMuenze = tastatur.nextDouble();
             eingezahlterGesamtbetrag = eingezahlterGesamtbetrag + eingeworfeneMuenze;
         }
