@@ -4,31 +4,43 @@ class Fahrkartenautomat {
     public static void main(String[] args) {
 
         Scanner tastatur = new Scanner(System.in);
-
         double zuZahlenderBetrag;
         double eingezahlterGesamtbetrag;
         double eingeworfeneMuenze;
         double rueckgabebetrag;
         double nochZuZahlen;
         int anzahlTickets;
-        float ticketPreis = 2.5F;
+        float ticketPreis;
 
         //0
 
-        System.out.printf("Der Ticket Presi beträgt %f Euro", ticketPreis);
-        System.out.println("Wie viel Tickets wollen sie kaufen?");
+        System.out.println("\n Wie groß ist der Ticketpreis?");
+        ticketPreis = tastatur.nextFloat();
+
+        if(ticketPreis > 10 || ticketPreis < 0) {
+        ticketPreis = 1;
+        System.out.println("Ungültige Eingabe; Ticket Preis wird auf 1 gesetzt");
+        }
+
+        System.out.printf("Der Ticket Preis beträgt %f Euro", ticketPreis);
+        System.out.println("\n Wie viel Tickets wollen sie kaufen?");
         anzahlTickets = tastatur.nextInt();
 
+        if (anzahlTickets > 10 || anzahlTickets < 0) {
+        anzahlTickets = 1;
+        System.out.println("\n Ungültige Eingabe. Wert wird auf 1. gesetzt");
+        }
+
+        System.out.println("Ticketanzahl entspricht " + anzahlTickets);
         zuZahlenderBetrag = anzahlTickets * ticketPreis;
-        
 
         // 1
         System.out.printf("\nZu zahlender Betrag : %f Euro", zuZahlenderBetrag );
-        eingezahlterGesamtbetrag = tastatur.nextDouble();
 
         // 2
-       //eingezahlterGesamtbetrag = 0.0;
+       eingezahlterGesamtbetrag = 0.0;
         nochZuZahlen = 0.0;
+
         while (eingezahlterGesamtbetrag < zuZahlenderBetrag) {
             nochZuZahlen = zuZahlenderBetrag - eingezahlterGesamtbetrag;
             System.out.printf("Noch zu zahlen: %f Euro", nochZuZahlen);
@@ -45,7 +57,7 @@ class Fahrkartenautomat {
                 Thread.sleep(200);
             }
             catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println(" Error: " + e);
             }
         }
         System.out.println("\n\n");
@@ -54,7 +66,7 @@ class Fahrkartenautomat {
         rueckgabebetrag = eingezahlterGesamtbetrag - zuZahlenderBetrag;
         if (rueckgabebetrag > 0.0) {
             System.out.println("Der Rückgabebetrag in Höhe von " + rueckgabebetrag + " Euro");
-            System.out.println("wird in folgenden Münzen ausgezahlt:");
+            System.out.println(" wird in folgenden Münzen ausgezahlt:");
 
             while (rueckgabebetrag >= 2.0) { // 2-Euro-Münzen
                 System.out.println("2 Euro");
@@ -82,7 +94,7 @@ class Fahrkartenautomat {
             }
         }
 
-        System.out.println("\nVergessen Sie nicht, den Fahrschein\n" + "vor Fahrtantritt entwerten zu lassen!\n"
+        System.out.println("\nVergessen Sie nicht, den Fahrschein \n" + "vor Fahrtantritt entwerten zu lassen!\n"
                 + "Wir wünschen Ihnen eine gute Fahrt.");
 
         tastatur.close();
