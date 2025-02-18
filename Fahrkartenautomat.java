@@ -2,17 +2,30 @@ import java.util.Scanner;
 
 class Fahrkartenautomat {
     private static Scanner tastatur = new Scanner(System.in);
+    private static final Fahrkartentyp[] Fahrkartentypen = {
+            new Fahrkartentyp(3.00, "Einzelfahrschein AB"),
+            new Fahrkartentyp(3.5, "Einzelfahrschein BC"),
+            new Fahrkartentyp(3.8, "Einzelfahrschein ABC"),
+            new Fahrkartentyp(2.0, "Kurzstrecke AB"),
+            new Fahrkartentyp(8.6, "Tageskarte AB"),
+            new Fahrkartentyp(9.2, "Tageskarte BC"),
+            new Fahrkartentyp(10.00, "Tageskarte ABC"),
+            new Fahrkartentyp(9.4, "4-Fahrten-Karte AB"),
+            new Fahrkartentyp(12.6, "4-Fahrten-Karte BC"),
+            new Fahrkartentyp(25.5, "Kleingruppen-Tageskarte AB"),
+            new Fahrkartentyp(26.0, "Kleingruppen-Tageskarte BC"),
+            new Fahrkartentyp(26.5, "Kleingruppen-Tageskarte ABC"),
+    };
 
     public static void main(String[] args) {
-        Enum<FahrkartentypenAB> fahrkartentypenABEnum;
 
         begruessung();
 
         fahrkartenTypen();
 
-        fahrkartentypenABEnum = auswahlFahrkartenTyp();
+        var ausgewählteFahrkarte = auswahlFahrkartenTyp();
 
-        var zuZahlenderBetrag = farhkartenbestllungErfassung();
+        var zuZahlenderBetrag = farhkartenbestllungErfassung(ausgewählteFahrkarte);
 
         var eingezahlterGesamtbetrag = fahrkartenBezahlen(zuZahlenderBetrag);
 
@@ -32,16 +45,11 @@ class Fahrkartenautomat {
         System.out.println("Herzlich Willkommen");
     }
 
-    public static double farhkartenbestllungErfassung(){
-        System.out.println("\n Wie groß ist der Ticketpreis?");
-        var ticketPreis = tastatur.nextFloat();
+    public static double farhkartenbestllungErfassung(Fahrkartentyp ausgewählteFahrkarte){
 
-        if(ticketPreis > 10 || ticketPreis < 0) {
-            ticketPreis = 1;
-            System.out.println("Ungültige Eingabe; Ticket Preis wird auf 1 gesetzt");
-        }
 
-        System.out.printf("Der Ticket Preis beträgt %f Euro", ticketPreis);
+        System.out.printf("Sie haben das Ticket %s ausgewählt.", ausgewählteFahrkarte.Fahrkartenname);
+        System.out.printf("Der Ticket Preis beträgt %f Euro", ausgewählteFahrkarte.Fahkartenwert);
         System.out.println("\n Wie viel Tickets wollen sie kaufen?");
         var anzahlTickets = tastatur.nextInt();
 
@@ -51,45 +59,31 @@ class Fahrkartenautomat {
         }
 
         System.out.println("Ticketanzahl entspricht " + anzahlTickets);
-        return  anzahlTickets * ticketPreis;
+        return  anzahlTickets * ausgewählteFahrkarte.Fahkartenwert;
     }
 
 
     public static void fahrkartenTypen(){
     System.out.println("Folgende Karten stehen ihnen zur Auswahl:");
 
-    int k = 0;
 
-    for (FahrkartentypenAB kartenTyp : FahrkartentypenAB.values())
+    for (var i = 0; i < Fahrkartentypen.length; i++)
     {
-        System.out.println("Typ: " + kartenTyp.toString() + " Number: " + k);
-        k++;
+        System.out.println("Typ: " + Fahrkartentypen[i].Fahrkartenname + " || Kosten: " + Fahrkartentypen[i].Fahkartenwert + " || Nummer: " + i);
     }
     }
 
-    public static FahrkartentypenAB auswahlFahrkartenTyp(){
+    public static Fahrkartentyp auswahlFahrkartenTyp(){
         while (true) {
             System.out.println("Bitte wählen Sie eine Nummer aus, die dem Ticket entspricht");
             var kartenIntiger = tastatur.nextInt();
-            if (kartenIntiger > FahrkartentypenAB.values().length || kartenIntiger < 0)
+            if (kartenIntiger > Fahrkartentypen.length || kartenIntiger < 0)
             {
-                System.out.println(kartenIntiger + " ist nicht wählbar. Bitte wählen sie einen Wert zwischen 0 und " + FahrkartentypenAB.values().length);
+                System.out.println(kartenIntiger + " ist nicht wählbar. Bitte wählen sie einen Wert zwischen 0 und " + Fahrkartentypen.length);
                 continue;
             };
 
-            switch(kartenIntiger)
-            {
-                case 0:
-                    return FahrkartentypenAB.Kurzstrecken;
-                case 1:
-                    return FahrkartentypenAB.Einzelfahrscheine;
-                case 2:
-                    return FahrkartentypenAB.Tageskarten;
-                case 3:
-                    return FahrkartentypenAB.VierFahrtenKarten;
-                default:
-                    return FahrkartentypenAB.Kurzstrecken;
-            }
+            return Fahrkartentypen[kartenIntiger];
         }
     }
 
@@ -177,6 +171,17 @@ class Fahrkartenautomat {
         VierFahrtenKarten
 
     }
+
+    public static class Fahrkartentyp {
+        public String Fahrkartenname;
+        public Double Fahkartenwert;
+
+        public Fahrkartentyp(Double fahkartenwert, String fahrkartenname) {
+            this.Fahkartenwert = fahkartenwert;
+            this.Fahrkartenname = fahrkartenname;
+        }
+    }
+
 
 
 }
